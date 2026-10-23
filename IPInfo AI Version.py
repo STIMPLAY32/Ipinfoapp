@@ -9,7 +9,7 @@ import webbrowser
 import json
 import sys
 
-# ip-api.com бесплатный тариф работает только по HTTP (HTTPS — платно)
+
 FIELDS = ("status,message,continent,continentCode,country,countryCode,region,"
           "regionName,city,district,zip,lat,lon,timezone,offset,currency,"
           "isp,org,as,asname,mobile,proxy,hosting,query")
@@ -125,7 +125,6 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
 
 
 class IPWorker(QThread):
-    """Сетевой запрос в отдельном потоке, чтобы не блокировать UI."""
     ok  = pyqtSignal(dict)
     err = pyqtSignal(str)
 
@@ -245,7 +244,6 @@ class MainWindow(QMainWindow):
         QShortcut(QKeySequence("Ctrl+L"), self).activated.connect(self.ip_input.setFocus)
         QShortcut(QKeySequence("Ctrl+Return"), self).activated.connect(self.search)
 
-    # ---------- Карточки и поля ----------
     def _make_card(self, title: str) -> tuple[QFrame, QVBoxLayout]:
         card = QFrame()
         card.setObjectName("Card")
@@ -318,7 +316,6 @@ class MainWindow(QMainWindow):
         self.f_hosting = self._add_field(lay, "Hosting / DC")
         self.cards_layout.addWidget(card)
 
-    # ---------- Копирование ----------
     def _copy_field(self, val_label: QLabel, btn: QPushButton):
         text = val_label.text()
         if not text or text == "—":
@@ -341,8 +338,7 @@ class MainWindow(QMainWindow):
             self.status_label.setText("Ready"),
             self.status_label.setStyleSheet("color: #71717a;")
         ))
-
-    # ---------- Поиск ----------
+        
     def get_my_ip(self):
         self.ip_input.clear()
         self.search()
@@ -380,12 +376,10 @@ class MainWindow(QMainWindow):
 
         self.current_data = data
 
-        # Overview
         self.f_ip.setText(data.get("query") or "—")
         self.f_status.setText("Success")
         self.f_status.setStyleSheet("color: #10b981; font-weight: 600;")
-
-        # Location
+        
         self.f_country.setText(f"{data.get('country', '—')} ({data.get('countryCode', '—')})")
         self.f_continent.setText(f"{data.get('continent', '—')} ({data.get('continentCode', '—')})")
         self.f_region.setText(f"{data.get('regionName', '—')} ({data.get('region', '—')})")
@@ -404,14 +398,12 @@ class MainWindow(QMainWindow):
         else:
             self.f_offset.setText("—")
 
-        # Network
         self.f_isp.setText(data.get("isp") or "—")
         self.f_org.setText(data.get("org") or "—")
         self.f_as.setText(data.get("as") or "—")
         self.f_asname.setText(data.get("asname") or "—")
         self.f_currency.setText(data.get("currency") or "—")
-
-        # Flags
+        
         self._set_flag(self.f_mobile,  data.get("mobile"))
         self._set_flag(self.f_proxy,   data.get("proxy"))
         self._set_flag(self.f_hosting, data.get("hosting"))
@@ -433,7 +425,6 @@ class MainWindow(QMainWindow):
         self.status_label.setText(f"Error: {err}")
         self.status_label.setStyleSheet("color: #ef4444;")
 
-    # ---------- Действия ----------
     def open_map(self):
         if not self.current_data:
             return
