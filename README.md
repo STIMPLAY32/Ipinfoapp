@@ -4,6 +4,8 @@ You can input any IP address to retrieve details such as:
   Time zone, Offset, Currency, ISP name, ISP organization, Autonomous System (AS) name and number, 
   Mobile IP status (True/False), Proxy status (True/False), and whether the IP belongs to a hosting provider.
 
+For open google map with founded coordinates did a double click button "Enter" (not keyboard)
+
 WARNING: THE AUTHOR OF THIS PROJECT IS NOT RESPONSIBLE FOR ANY CONSEQUENCES ARISING 
 FROM THE USE OF THIS PROGRAM. THE PROGRAM IS CREATED SOLELY FOR EDUCATIONAL AND 
 INFORMATIONAL PURPOSES.
